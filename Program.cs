@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+
+using CoffeeShopRegistration.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// NEW LINES OF CODE FOR EF
+IConfigurationBuilder buildConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true);
+IConfiguration configuration = buildConfig.Build();
+builder.Services.AddDbContext<CoffeeShopContext>(options =>
+options.UseSqlServer(configuration.GetConnectionString("CoffeeShop"))); // Make sure to use the right name
+// END OF NEW LINES
 
 var app = builder.Build();
 
@@ -12,6 +23,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
