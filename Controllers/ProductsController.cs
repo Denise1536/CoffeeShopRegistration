@@ -13,19 +13,23 @@ namespace CoffeeShopRegistration.Controllers
     {
         private readonly CoffeeShopContext _context;
 
+        private List<Product> products = new List<Product>();
+
         public ProductsController(CoffeeShopContext context)
         {
             _context = context;
         }
 
 
-        // GET: Products
-        public async Task<IActionResult> Index(Product product)
+        // GET: Products, the one it made for me
+
+        public async Task<IActionResult> Index()
         {
               return _context.Products != null ? 
                           View(await _context.Products.ToListAsync()) :
                           Problem("Entity set 'CoffeeShopContext.Products'  is null.");
         }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
